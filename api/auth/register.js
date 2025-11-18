@@ -1,4 +1,3 @@
-// API route for registration (api/auth/register.js)
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method not allowed' });
@@ -7,13 +6,11 @@ export default async function handler(req, res) {
     const { username, password } = req.body;
     
     try {
-        // Connect to NeonDB
         const { Pool } = require('pg');
         const pool = new Pool({
-            connectionString: process.env.NEONDB_CONNECTION_STRING,
+            connectionString: process.env.DATABASE_URL,
         });
 
-        // Check if username already exists
         const existingUser = await pool.query(
             'SELECT * FROM users WHERE username = $1',
             [username]
@@ -26,10 +23,9 @@ export default async function handler(req, res) {
             });
         }
 
-        // Insert new user (add proper password hashing in production)
         const result = await pool.query(
             'INSERT INTO users (username, password, created_at) VALUES ($1, $2, NOW()) RETURNING id',
-            [username, password] // Hash password properly in production
+            [username, password]
         );
 
         return res.status(201).json({ 
