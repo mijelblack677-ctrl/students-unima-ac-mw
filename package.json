@@ -1,0 +1,16 @@
+{
+  "name": "students-unima-portal",
+  "version": "1.0.0",
+  "description": "University of Malawi Students Portal",
+  "main": "login.php.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
