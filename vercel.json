@@ -6,14 +6,26 @@
       "use": "@vercel/node"
     },
     {
-      "src": "**/*.html",
+      "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "dist/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "bootstrap/**/*",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/login.php.html"
     }
   ]
 }
