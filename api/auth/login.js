@@ -1,5 +1,4 @@
-// API route for Vercel (api/auth/login.js)
-export default async function handler(req, res) {
+// APexport default async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ message: 'Method not allowed' });
     }
@@ -7,10 +6,10 @@ export default async function handler(req, res) {
     const { username, password } = req.body;
     
     try {
-        // Connect to NeonDB
+        // Use DATABASE_URL from NeonDB integration
         const { Pool } = require('pg');
         const pool = new Pool({
-            connectionString: process.env.NEONDB_CONNECTION_STRING,
+            connectionString: process.env.DATABASE_URL,
         });
 
         // Check if user exists
@@ -20,10 +19,8 @@ export default async function handler(req, res) {
         );
 
         if (userCheck.rows.length > 0) {
-            // User exists - verify password
             const user = userCheck.rows[0];
-            // Add your password verification logic here (compare hashed passwords)
-            if (user.password === password) { // Replace with proper password hashing
+            if (user.password === password) {
                 return res.status(200).json({ 
                     success: true, 
                     message: 'Login successful',
@@ -36,7 +33,6 @@ export default async function handler(req, res) {
                 });
             }
         } else {
-            // User doesn't exist
             return res.status(404).json({ 
                 success: false, 
                 userNotFound: true,
@@ -50,4 +46,4 @@ export default async function handler(req, res) {
             message: 'Internal server error' 
         });
     }
-}
+}I route for Vercel (api/auth/login.js)
