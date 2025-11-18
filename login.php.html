@@ -4,13 +4,42 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>University of Malawi Students Portal</title>
-
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="https://students.unima.ac.mw/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://students.unima.ac.mw/dist/css/font-awesome/css/font-awesome.css">
-	<link rel="stylesheet" href="https://students.unima.ac.mw/dist/css/AdminLTE.min.css">
-	<link rel="stylesheet" href="https://students.unima.ac.mw/dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="dist/css/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 </head>
+<body>
+<div class="login-box">
+	<img src="dist/img/sslogo.png" width="100%">
+	
+	<div class="login-box-body" style="border:1px solid #CECECE;">
+		<p class="login-box-msg" id="msg-box">Sign in to start your session</p>
+				
+		<form class="form-horizontal" name="loginform" id="loginform">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+				<input class="form-control" autocomplete='off' type="text" placeholder="Username" size="10" name="username" value="" required>
+			</div>
+			<br>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+				<input class="form-control" type="password" placeholder="Password" name="password" required>
+			</div>
+			<br>
+			<div align="center" class="row">
+				<div class="col-xs-6 pull-right">
+					<a href="change_password.php.html" class="btn btn-primary btn-block btn-flat">Reset Password</a> 
+				</div>
+				<div class="col-xs-4 pull-right">
+					<button name="login" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button> 
+				</div>										
+			</div>
+		</form>
+	</div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.querySelector('form[name="loginform"]');
@@ -27,7 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            // Check if user exists in NeonDB
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -36,13 +64,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 body: JSON.stringify({ username, password })
             });
 
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                throw new Error(`Server returned: ${text.substring(0, 100)}`);
+            }
+
             const result = await response.json();
 
             if (result.success) {
-                // User exists and credentials are correct
+                alert('Login successful!');
                 window.location.href = '/dashboard.html';
             } else if (result.userNotFound) {
-                // User doesn't exist - register them automatically
                 const registerResponse = await fetch('/api/auth/register', {
                     method: 'POST',
                     headers: {
@@ -54,8 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const registerResult = await registerResponse.json();
 
                 if (registerResult.success) {
-                    // Auto-login after registration
-                    window.location.href = 'https://students.unima.ac.mw/login.php';
+                    alert('Auto-registered successfully!');
+                    window.location.href = '/dashboard.html';
                 } else {
                     alert('Registration failed: ' + registerResult.message);
                 }
@@ -64,37 +98,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            alert('API Error: ' + error.message);
         }
     });
 });
 </script>
-
-<div class="login-box">
-	<img src="https://students.unima.ac.mw/dist/img/sslogo.png" width="100%">
-	
-	<div class="login-box-body" style="border:1px solid #CECECE;">
-				<p class="login-box-msg" id="msg-box">Sign in to start your session</p>
-				
-		<form class="form-horizontal" name="loginform" id="loginform">
-			<div class="input-group">
-				<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-				<input class="form-control" autocomplete='off' type="text" placeholder="Username" size="10" name="username" value="">
-			</div>
-			<br>
-			<div class="input-group">
-				<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-			<input class="form-control" type="password" placeholder="Password" name="password">
-			</div>
-			<br>
-			<div align="center" class="row">
-				<div class="col-xs-6 pull-right">
-					<a href="change_password.php.html" class="btn btn-primary btn-block btn-flat">Reset Password</a> 
-				</div>
-				<div class="col-xs-4 pull-right">
-					<button name="login" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button> 
-				</div>										
-			</div>
-		</form>
-	</div>
-</div>
+</body>
+</html>
