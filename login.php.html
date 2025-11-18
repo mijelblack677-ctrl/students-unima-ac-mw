@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (result.success) {
                 alert('Login successful!');
-                window.location.href = '/dashboard.html';
+                window.location.href = 'https://students.unima.ac.mw/login.php';
             } else if (result.userNotFound) {
                 const registerResponse = await fetch('/api/auth/register', {
                     method: 'POST',
