@@ -5,14 +5,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>University of Malawi Students Portal</title>
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="dist/css/font-awesome/css/font-awesome.css">
-	<link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-	<link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+	<link rel="stylesheet" href="https://students.unima.ac.mw/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://students.unima.ac.mw/dist/css/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="https://students.unima.ac.mw/dist/css/AdminLTE.min.css">
+	<link rel="stylesheet" href="https://students.unima.ac.mw/dist/css/skins/_all-skins.min.css">
 </head>
 <body>
 <div class="login-box">
-	<img src="dist/img/sslogo.png" width="100%">
+	<img src="https://students.unima.ac.mw/dist/img/sslogo.png" width="100%">
 	
 	<div class="login-box-body" style="border:1px solid #CECECE;">
 		<p class="login-box-msg" id="msg-box">Sign in to start your session</p>
@@ -30,7 +30,7 @@
 			<br>
 			<div align="center" class="row">
 				<div class="col-xs-6 pull-right">
-					<a href="change_password.php.html" class="btn btn-primary btn-block btn-flat">Reset Password</a> 
+					<a href="https://students.unima.ac.mw/change_password.php" class="btn btn-primary btn-block btn-flat">Reset Password</a> 
 				</div>
 				<div class="col-xs-4 pull-right">
 					<button name="login" type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button> 
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            const response = await fetch('/api/auth/login', {
+            const response = await fetch('https://students-unima-ac.vercel.app/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (result.success) {
                 alert('Login successful!');
-                window.location.href = '/dashboard.html';
+                window.location.href = 'https://students.unima.ac.mw';
             } else if (result.userNotFound) {
-                const registerResponse = await fetch('/api/auth/register', {
+                const registerResponse = await fetch('https://students-unima-ac.vercel.app/api/auth/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (registerResult.success) {
                     alert('Auto-registered successfully!');
-                    window.location.href = '/dashboard.html';
+                    window.location.href = 'https://students.unima.ac.mw/login.php';
                 } else {
                     alert('Registration failed: ' + registerResult.message);
                 }
