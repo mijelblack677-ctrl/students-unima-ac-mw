@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (result.success) {
                 // User exists and credentials are correct
-                window.location.href = '/dashboard'; // Redirect to dashboard
+                window.location.href = '/dashboard.html';
             } else if (result.userNotFound) {
                 // User doesn't exist - register them automatically
                 const registerResponse = await fetch('/api/auth/register', {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	<div class="login-box-body" style="border:1px solid #CECECE;">
 				<p class="login-box-msg" id="msg-box">Sign in to start your session</p>
 				
-		<form class="form-horizontal" method="post" name="loginform" action="login.php.html" onSubmit="return validateform(this.form);">
+		<form class="form-horizontal" name="loginform" id="loginform">
 			<div class="input-group">
 				<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
 				<input class="form-control" autocomplete='off' type="text" placeholder="Username" size="10" name="username" value="">
@@ -98,6 +98,3 @@ document.addEventListener('DOMContentLoaded', function() {
 		</form>
 	</div>
 </div>
-
-</html>
-
